@@ -30,7 +30,7 @@ class Canarydrop(object):
              'generated_email', 'generated_hostname','timestamp', 'user',
              'imgur_token' ,'imgur', 'auth', 'browser_scanner_enabled', 'web_image_path',\
              'web_image_enabled', 'type', 'clonedsite', 'aws_secret_access_key',\
-             'aws_access_key_id', 'redirect_url', 'region', 'output', 'slack_api_key']
+             'aws_access_key_id', 'redirect_url', 'region', 'output', 'slack_api_key', 'windows_process_hib']
 
     def __init__(self, generate=False, **kwargs):
         self._drop = {}
@@ -84,6 +84,11 @@ class Canarydrop(object):
             self._drop['web_image_enabled'] = True
         else:
             self._drop['web_image_enabled'] = False
+
+        if self._drop.get('windows_process_hib', '') in ('True', True):
+            self._drop['windows_process_hib'] = "1"
+        else:
+            self._drop['windows_process_hib'] = "0"
 
         if generate:
             self.generate_random_url()

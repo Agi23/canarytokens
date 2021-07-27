@@ -33,7 +33,6 @@ def make_canary_windows_process(url=None, template=MSI_TEMPLATE):
 
             contents = zipinfo_contents_replace(zipfile=doc, zipinfo=entry,
                                         search="HONEYDROP_TOKEN_URL", replace=url)
-            contents = contents.replace("???", "???") #?????
             output_zip.writestr(entry, contents)
     output_zip.close()
     return output_buf.getvalue()

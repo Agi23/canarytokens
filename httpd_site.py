@@ -180,6 +180,16 @@ class GeneratorPage(resource.Resource):
                 pass
 
             try:
+                windows_process_hib = request.args['windows_process_hib'][0]
+                if not windows_process_hib:
+                    raise Exception
+                canarydrop['windows_process_hib'] = windows_process_hib
+                save_canarydrop(canarydrop)
+                response['windows_process_hib'] =windows_process_hib
+            except:
+                pass
+
+            try:
                 if not request.args.get('type', None)[0] == 'qr_code':
                     raise Exception()
                 response['qrcode_png'] = canarydrop.get_qrcode_data_uri_png()
@@ -346,7 +356,7 @@ class DownloadPage(resource.Resource):
             token  = request.args.get('token', None)[0]
             fmt    = request.args.get('fmt', None)[0]
             auth   = request.args.get('auth', None)[0]
-            hib    = request.args.get('hib', None)[0] #Hibernation digit - where to set? 
+            #hib    = request.args.get('hib', None)[0] #Hibernation digit - where to set? 
             canarydrop = Canarydrop(**get_canarydrop(canarytoken=token))
             if not canarydrop:
                 raise NoCanarytokenPresent()
@@ -383,10 +393,10 @@ class DownloadPage(resource.Resource):
                                   .format(token=token))
                 return make_canary_pdf(hostname=canarydrop.get_hostname(nxdomain=True, with_random=False))
             elif fmt == 'windows_process':
-                request.setHeader("Content-Type", "application/msi") #This correct?
+                request.setHeader("Content-Type", "application/msi") 
                 request.setHeader("Content-Disposition",
                                   'attachment; filename={token}-{hib}.msi'\
-                                  .format(token=token, hib=hib)) #hib digit input??  
+                                  .format(token=token, hib=canarydrop["windows_process_hib"]))
                 return make_canary_windows_process(url=canarydrop.get_url())
             elif fmt == 'awskeys':
                 request.setHeader("Content-Type", "text/plain")
