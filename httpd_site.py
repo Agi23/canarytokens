@@ -356,7 +356,6 @@ class DownloadPage(resource.Resource):
             token  = request.args.get('token', None)[0]
             fmt    = request.args.get('fmt', None)[0]
             auth   = request.args.get('auth', None)[0]
-            #hib    = request.args.get('hib', None)[0] #Hibernation digit - where to set? 
             canarydrop = Canarydrop(**get_canarydrop(canarytoken=token))
             if not canarydrop:
                 raise NoCanarytokenPresent()
