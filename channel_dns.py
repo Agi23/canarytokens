@@ -196,7 +196,7 @@ class ChannelDNS(InputChannel):
                     'file open alert: {filename}'.format(filename=filename))
 
         return data
-    
+
     def _desktop_ini_browsing(self, username=None, hostname=None, domain=None):
         data = {}
         data['windows_desktopini_access_username'] = username
