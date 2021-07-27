@@ -1,6 +1,5 @@
 import base64
 from canarytokens.win_process import make_canary_windows_process
-from redis.connection import HIREDIS_USE_BYTE_BUFFER
 import simplejson
 import cgi
 
@@ -182,11 +181,11 @@ class GeneratorPage(resource.Resource):
             try:
                 windows_process_hib = request.args['windows_process_hib'][0]
                 if not windows_process_hib:
-                    raise Exception
+                    raise KeyError
                 canarydrop['windows_process_hib'] = windows_process_hib
                 save_canarydrop(canarydrop)
                 response['windows_process_hib'] =windows_process_hib
-            except:
+            except (IndexError, KeyError):
                 pass
 
             try:
@@ -395,8 +394,8 @@ class DownloadPage(resource.Resource):
                 request.setHeader("Content-Type", "application/msi") 
                 request.setHeader("Content-Disposition",
                                   'attachment; filename={token}-{hib}.msi'\
-                                  .format(token=token, hib=canarydrop["windows_process_hib"]))
-                return make_canary_windows_process(url=canarydrop.get_url())
+                                  .format(token=token, hib="1" if canarydrop["windows_process_hib"] else "0"))
+                return settings.CANARY_MSI_TEMPLATE
             elif fmt == 'awskeys':
                 request.setHeader("Content-Type", "text/plain")
                 request.setHeader("Content-Disposition",

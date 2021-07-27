@@ -85,11 +85,6 @@ class Canarydrop(object):
         else:
             self._drop['web_image_enabled'] = False
 
-        if self._drop.get('windows_process_hib', '') in ('True', True):
-            self._drop['windows_process_hib'] = "1"
-        else:
-            self._drop['windows_process_hib'] = "0"
-
         if generate:
             self.generate_random_url()
             self.generate_random_hostname()
