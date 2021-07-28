@@ -193,6 +193,14 @@
                 </div>
               </div>
             </div>
+            <div class="result windows_process">
+              <h5>Here's your Windows service token:</h5>
+              <div class="artifacts">
+                <div class="form-control">
+                  <a class="btn btn-large btn-success file-download" data-fmt="windows_process">Download your installation file</a>
+                </div>
+              </div>
+            </div>
             <div class="result clonedsite">
               <h5>Here's your tokened Javascript:</h5>
               <div class="artifacts">
@@ -519,6 +527,7 @@
                                 'ms_excel' : _handleFileDownloadResponse,
                                 'adobe_pdf' : _handleFileDownloadResponse,
                                 'windows_dir' : _handleFileDownloadResponse,
+                                'windows_process':_handleFileDownloadResponse,
                                 'clonedsite' : _handleClonedWebsiteResponse,
                                 'qr_code': _handleQrCodeResponse,
                                 'svn': _handleSVNResponse,

@@ -113,6 +113,7 @@
                     <li data-type="ms_excel"       data-memo-placeholder="Excel document placed at U:\Users\Sally\Reports\feb.xlsx"><a href="#" class="icon icon-excel"><span class="title">Microsoft Excel Document</span><div class="explanation">Get alerted when a document is opened in Microsoft Excel</div></a></li>
                     <li data-type="adobe_pdf"      data-memo-placeholder="PDF document placed at U:\Users\Sipho\Reports\feb.pdf"><a href="#" class="icon icon-pdf"><span class="title">Acrobat Reader PDF Document</span><div class="explanation">Get alerted when a PDF document is opened in Acrobat Reader</div></a></li>
                     <li data-type="windows_dir"    data-memo-placeholder="Directory token placed in U:\Users\Sarah\CreditCardReports\"><a href="#" class="icon icon-folder"><span class="title">Windows Folder</span><div class="explanation">Be notified when a Windows Folder is browsed in Windows Explorer</div></a></li>
+                    <li data-type="windows_process"data-memo-placeholder="Windows service token placed on Accounting department server"><a href="#" class="icon icon-service"><span class="title">Windows Service</span><div class="explanation">Be notified when a Windows service is killed or uninstalled</div></a></li>
                     <li data-type="signed_exe"     data-memo-placeholder="Tokened whoami.exe on web server WEB01"><a href="#" class="icon icon-exe"><span class="title">Custom exe / binary</span><div class="explanation">Fire an alert when an EXE or DLL is executed</div></a></li>
                     <li data-type="cloned_website" data-memo-placeholder="Cloned website token for https://thinkst.com"><a href="#" class="icon icon-clonedsite"><span class="title">Cloned Website</span><div class="explanation">Trigger an alert when your website is cloned</div></a></li>
                     <li data-type="sql_server"     data-memo-placeholder="SELET SQL Server token on SQL01/CreditCards"><a href="#" class="icon icon-sqlserver"><span class="title">SQL Server</span><div class="explanation">Get alerted when MS SQL Server databases are accessed</div></a></li>
@@ -149,6 +150,14 @@
                 <div class="field-optional field-cloned_website hidden">
                   <input class="form-control" type="text" tabindex=3 name="clonedsite" placeholder="Domain of protected website (e.g. thinkst.com)">
                 </div>
+                <div class="row setting">
+                  <div class="col-xs-12 col-md-6 key">
+                    Hibernate on trigger<br/><small>{{canarydrop['windows_process_hib'] | e}}</small>
+                  </div>
+                  <div class="col-xs-12 col-md-6 value">
+                    <input class="settings_checkbox" type="checkbox" name="windows_hibernation" {%if canarydrop['windows_process_hib']%}checked{%endif%}>
+                  </div>
+              </div>
                 <div class="error-field" id="file_upload_errors"></div>
                 <div class="field-optional field-sql_server hidden">
                   <div id="sql_type" class="wrapper-dropdown form-control" tabindex="1">
@@ -299,6 +308,26 @@
                     </ul>
                   </p>
                 </div>
+              </div>
+              <div class="result windows_process">
+                <h3>Your Windows service token is active!</h3>
+                <div class="artifacts">
+                  <div class="form-control">
+                    <a class="btn btn-large btn-success file-download" data-fmt="windows_process">Download your installation file</a>
+                  </div>
+                </div>
+                <div class="advice">
+                  <p>Once installed, create your own services from the SecurityProcess.exe file.</p>
+                  <p>Visit the documentation for instructions for an easy setup guide.</p>
+                  <p>Ideas for use:
+                    <ul>
+                      <li>Rename the exe to something an attacker would want to kill like "antivirus.exe"</li>
+                      <li>Add another serivce with an unsuspecting name like "PrinterDriver"</li>
+                      <li>Install on a network</li>
+                    </ul>
+                  </p>
+                </div>
+              </div>
               </div>
               <div class="result ms_word">
                 <h3>Your MS Word token is active!</h3>
