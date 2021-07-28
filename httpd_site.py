@@ -1,5 +1,4 @@
 import base64
-from canarytokens.win_process import make_canary_windows_process
 import simplejson
 import cgi
 
