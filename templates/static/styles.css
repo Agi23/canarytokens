@@ -493,6 +493,9 @@
             height: 20px;
           }
       }
+      a.icon-service:before{
+        background-image: url("/resources/service.png");;
+      }
       a.icon-web:before {
         background-image: url("/resources/web.png");
       }
