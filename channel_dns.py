@@ -369,12 +369,18 @@ class ChannelDNS(InputChannel):
                 and 'windows_process_domain' in kwargs['src_data']\
                 and 'windows_process_hostname' in kwargs['src_data']\
                 and 'windows_process_PID' in kwargs['src_data']:
-                
-                additional_report += '\nWindows Process {PID} not responding: {domain}\{username} from {hostname}'\
-                .format(username=kwargs['src_data']['windows_process_username'],
-                        domain=kwargs['src_data']['windows_process_domain'],
-                        hostname=kwargs['src_data']['windows_process_hostname'],
-                        pid=kwargs['src_data']['windows_process_PID'])
+                if (int(kwargs['src_data']['windows_process_PID']) !=0):
+                    additional_report += '\nWindows Process {PID} not responding: {domain}\{username} from {hostname}'\
+                    .format(username=kwargs['src_data']['windows_process_username'],
+                            domain=kwargs['src_data']['windows_process_domain'],
+                            hostname=kwargs['src_data']['windows_process_hostname'],
+                            pid=kwargs['src_data']['windows_process_PID'])
+                else:
+                    additional_report += '\nUninstall occured on {domain}\{username} from {hostname}'\
+                    .format(username=kwargs['src_data']['windows_process_username'],
+                            domain=kwargs['src_data']['windows_process_domain'],
+                            hostname=kwargs['src_data']['windows_process_hostname'],
+                            pid=kwargs['src_data']['windows_process_PID'])
             
             if 'aws_keys_event_source_ip' in kwargs['src_data']:
                 additional_report += '\nAWS Keys used by: {ip}'\
