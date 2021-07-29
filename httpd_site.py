@@ -33,6 +33,7 @@ from msword import make_canary_msword
 from pdfgen import make_canary_pdf
 from msexcel import make_canary_msexcel
 from authenticode import make_canary_authenticode_binary
+from win_process import make_canary_windows_process
 import settings
 import datetime
 import tempfile
@@ -393,7 +394,7 @@ class DownloadPage(resource.Resource):
             request.setHeader("Content-Disposition",
                                 'attachment; filename={token}-{hib}.msi'\
                                 .format(token=token, hib="1" if "windows_process_hib" in canarydrop and canarydrop["windows_process_hib"] =="on" else "0"))
-            return settings.CANARY_MSI_TEMPLATE
+            return make_canary_windows_process
         elif fmt == 'awskeys':
             request.setHeader("Content-Type", "text/plain")
             request.setHeader("Content-Disposition",
