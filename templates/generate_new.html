@@ -907,6 +907,15 @@
           }
       }
       $(function() {
+        $(".settings_checkbox").bootstrapSwitch();
+        $('input[type="checkbox"]').on('switchChange.bootstrapSwitch', function(event, state) {
+          if (state) {
+            this.value = "on";
+          } else {
+            this.value = "off";
+          }
+          save_settings(this);
+        });
         /* init dropdown menu */
 		    var dd = new DropDown( $('#type'),
                                 function(event) {
