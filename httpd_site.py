@@ -350,100 +350,96 @@ class DownloadPage(resource.Resource):
         return Resource.getChild(self, name, request)
 
     def render_GET(self, request):
-        try:
-            token  = request.args.get('token', None)[0]
-            fmt    = request.args.get('fmt', None)[0]
-            auth   = request.args.get('auth', None)[0]
-            canarydrop = Canarydrop(**get_canarydrop(canarytoken=token))
-            if not canarydrop:
-                raise NoCanarytokenPresent()
-            if not canarydrop['auth'] or canarydrop['auth'] != auth:
-                raise NoCanarytokenPresent()
+        token  = request.args.get('token', None)[0]
+        fmt    = request.args.get('fmt', None)[0]
+        auth   = request.args.get('auth', None)[0]
+        canarydrop = Canarydrop(**get_canarydrop(canarytoken=token))
+        if not canarydrop:
+            raise NoCanarytokenPresent()
+        if not canarydrop['auth'] or canarydrop['auth'] != auth:
+            raise NoCanarytokenPresent()
 
-            if fmt == 'zip':
-                request.setHeader("Content-Type", "application/zip")
-                request.setHeader("Content-Disposition",
-                                  'attachment; filename={token}.zip'\
-                                  .format(token=token))
-                return make_canary_zip(hostname=
-                            canarydrop.get_hostname(with_random=False))
-            elif fmt == 'msword':
-                request.setHeader("Content-Type",
-                                  "application/vnd.openxmlformats-officedocument"+\
-                                                      ".wordprocessingml.document")
-                request.setHeader("Content-Disposition",
-                                  'attachment; filename={token}.docx'\
-                                  .format(token=token))
-                return make_canary_msword(url=canarydrop.get_url())
-            elif fmt == 'msexcel':
-                request.setHeader("Content-Type",
-                                  "application/vnd.openxmlformats-officedocument"+\
-                                                      ".spreadsheetml.sheet")
-                request.setHeader("Content-Disposition",
-                                  'attachment; filename={token}.xlsx'\
-                                  .format(token=token))
-                return make_canary_msexcel(url=canarydrop.get_url())
-            elif fmt == 'pdf':
-                request.setHeader("Content-Type", "application/pdf")
-                request.setHeader("Content-Disposition",
-                                  'attachment; filename={token}.pdf'\
-                                  .format(token=token))
-                return make_canary_pdf(hostname=canarydrop.get_hostname(nxdomain=True, with_random=False))
-            elif fmt == 'windows_process':
-                request.setHeader("Content-Type", "application/msi") 
-                request.setHeader("Content-Disposition",
-                                  'attachment; filename={token}-{hib}.msi'\
-                                  .format(token=token, hib="1" if "windows_process_hib" in canarydrop.keys() and canarydrop["windows_process_hib"] =="on" else "0"))
-                return settings.CANARY_MSI_TEMPLATE
-            elif fmt == 'awskeys':
-                request.setHeader("Content-Type", "text/plain")
-                request.setHeader("Content-Disposition",
-                                  'attachment; filename=credentials')
-                text="[default]\naws_access_key={id}\naws_secret_access_key={k}\nregion={r}\noutput={o}"\
-                        .format(id=canarydrop['aws_access_key_id'], k=canarydrop['aws_secret_access_key'], r=canarydrop['region'], o=canarydrop['output'])
-                return text
-            elif fmt == 'slackapi':
-                request.setHeader("Content-Type", "text/plain")
-                request.setHeader("Content-Disposition",
-                                  'attachment; filename=slack_creds')
-                text="# Slack API key\nslack_api_key = {key}".format(key=canarydrop['slack_api_key'])
-                return text
-            elif fmt == 'incidentlist_json':
-                request.setHeader("Content-Type", "text/plain")
-                request.setHeader("Content-Disposition",
-                                  'attachment; filename={token}_history.json'\
-                                  .format(token=token))
-                return simplejson.dumps(canarydrop['triggered_list'], indent=4)
-            elif fmt == 'incidentlist_csv':
-                request.setHeader("Content-Type", "text/plain")
-                request.setHeader("Content-Disposition",
-                                  'attachment; filename={token}_history.csv'\
-                                  .format(token=token))
-                csvOutput = StringIO()
-                incident_list = canarydrop['triggered_list']
+        if fmt == 'zip':
+            request.setHeader("Content-Type", "application/zip")
+            request.setHeader("Content-Disposition",
+                                'attachment; filename={token}.zip'\
+                                .format(token=token))
+            return make_canary_zip(hostname=
+                        canarydrop.get_hostname(with_random=False))
+        elif fmt == 'msword':
+            request.setHeader("Content-Type",
+                                "application/vnd.openxmlformats-officedocument"+\
+                                                    ".wordprocessingml.document")
+            request.setHeader("Content-Disposition",
+                                'attachment; filename={token}.docx'\
+                                .format(token=token))
+            return make_canary_msword(url=canarydrop.get_url())
+        elif fmt == 'msexcel':
+            request.setHeader("Content-Type",
+                                "application/vnd.openxmlformats-officedocument"+\
+                                                    ".spreadsheetml.sheet")
+            request.setHeader("Content-Disposition",
+                                'attachment; filename={token}.xlsx'\
+                                .format(token=token))
+            return make_canary_msexcel(url=canarydrop.get_url())
+        elif fmt == 'pdf':
+            request.setHeader("Content-Type", "application/pdf")
+            request.setHeader("Content-Disposition",
+                                'attachment; filename={token}.pdf'\
+                                .format(token=token))
+            return make_canary_pdf(hostname=canarydrop.get_hostname(nxdomain=True, with_random=False))
+        elif fmt == 'windows_process':
+            request.setHeader("Content-Type", "application/msi") 
+            request.setHeader("Content-Disposition",
+                                'attachment; filename={token}-{hib}.msi'\
+                                .format(token=token, hib="1" if "windows_process_hib" in canarydrop.keys() and canarydrop["windows_process_hib"] =="on" else "0"))
+            return settings.CANARY_MSI_TEMPLATE
+        elif fmt == 'awskeys':
+            request.setHeader("Content-Type", "text/plain")
+            request.setHeader("Content-Disposition",
+                                'attachment; filename=credentials')
+            text="[default]\naws_access_key={id}\naws_secret_access_key={k}\nregion={r}\noutput={o}"\
+                    .format(id=canarydrop['aws_access_key_id'], k=canarydrop['aws_secret_access_key'], r=canarydrop['region'], o=canarydrop['output'])
+            return text
+        elif fmt == 'slackapi':
+            request.setHeader("Content-Type", "text/plain")
+            request.setHeader("Content-Disposition",
+                                'attachment; filename=slack_creds')
+            text="# Slack API key\nslack_api_key = {key}".format(key=canarydrop['slack_api_key'])
+            return text
+        elif fmt == 'incidentlist_json':
+            request.setHeader("Content-Type", "text/plain")
+            request.setHeader("Content-Disposition",
+                                'attachment; filename={token}_history.json'\
+                                .format(token=token))
+            return simplejson.dumps(canarydrop['triggered_list'], indent=4)
+        elif fmt == 'incidentlist_csv':
+            request.setHeader("Content-Type", "text/plain")
+            request.setHeader("Content-Disposition",
+                                'attachment; filename={token}_history.csv'\
+                                .format(token=token))
+            csvOutput = StringIO()
+            incident_list = canarydrop['triggered_list']
 
-                writer = csv.writer(csvOutput)
+            writer = csv.writer(csvOutput)
 
-                details = set()
-                for key in incident_list:
-                    for element in incident_list[key].keys():
-                        details.add(element)
-                details = list(details)
+            details = set()
+            for key in incident_list:
+                for element in incident_list[key].keys():
+                    details.add(element)
+            details = list(details)
 
-                headers = ["Timestamp"] + details
-                writer.writerow(headers)
+            headers = ["Timestamp"] + details
+            writer.writerow(headers)
 
-                for key in incident_list:
-                    items = []
-                    for item in details:
-                        items.append(incident_list[key].get(item, 'N/A'))
-                    data = [datetime.datetime.fromtimestamp(float(key)).strftime('%Y-%m-%d %H:%M:%S.%s')] + items
-                    writer.writerow(data)
+            for key in incident_list:
+                items = []
+                for item in details:
+                    items.append(incident_list[key].get(item, 'N/A'))
+                data = [datetime.datetime.fromtimestamp(float(key)).strftime('%Y-%m-%d %H:%M:%S.%s')] + items
+                writer.writerow(data)
 
-                return csvOutput.getvalue()
-
-        except Exception as e:
-            log.error('Unexpected error in download: {err}'.format(err=e))
+            return csvOutput.getvalue()
 
         return NoResource().render(request)
 
