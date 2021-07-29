@@ -61,6 +61,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.tooltipster/4.1.8/css/tooltipster.bundle.min.css" integrity="sha256-Qc4lCfqZWYaHF5hgEOFrYzSIX9Rrxk0NPHRac+08QeQ=" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.tooltipster/4.1.8/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-borderless.min.css" integrity="sha256-ZiBTbkzExWV/DU4+02ZMqXaNu7o0XfNmxTa0+gRbdO0=" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/resources/styles.min.css?ver=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.3/css/bootstrap3/bootstrap-switch.min.css" integrity="sha256-TmXiemEItWzNM8RAaAW2WZNEadRBPMsiW6RHIQC2D2A=" crossorigin="anonymous" />
+  
     <style>
     .ps__rail-x,
     .ps__rail-y {
@@ -152,10 +154,10 @@
                 </div>
                 <div class="field-optional field-windows_process hidden">
                   <div class="row setting">
-                    <div class="col-md-6 key">
-                      Hibernation on trigger
+                    <div class="col-xs-12 col-md-6 key">
+                      Hibernate the server when triggered
                     </div>
-                    <div class="col-md-6 value">
+                    <div class="col-xs-12 col-md-6 key">
                       <input class="settings_checkbox" type="checkbox" name="windows_process_hib">
                     </div>
                   </div>
@@ -683,6 +685,7 @@
     <script src="https://cdn.jsdelivr.net/jquery.tooltipster/4.1.8/js/tooltipster.bundle.min.js" integrity="sha256-q732ZLDh1y9/RwzPjKt/GODE3lqj+078N0wwMDYQiPg=" crossorigin="anonymous"></script>
     <script src="/resources/site.js"></script>
     <script src="/resources/perfect-scrollbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.3/js/bootstrap-switch.min.js" integrity="sha256-lDGxF93YiQJCM4WXZYZmXNww6vWiPqnVxJgFJvstLGE=" crossorigin="anonymous"></script>
     <script>
       Array.prototype.random = function () {
         return this[Math.floor((Math.random()*this.length))];
@@ -908,14 +911,7 @@
       }
       $(function() {
         $(".settings_checkbox").bootstrapSwitch();
-        $('input[type="checkbox"]').on('switchChange.bootstrapSwitch', function(event, state) {
-          if (state) {
-            this.value = "on";
-          } else {
-            this.value = "off";
-          }
-          save_settings(this);
-        });
+        
         /* init dropdown menu */
 		    var dd = new DropDown( $('#type'),
                                 function(event) {
