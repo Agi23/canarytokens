@@ -53,7 +53,6 @@ class Switchboard(object):
         canarydrop -- a Canarydrop instance
         **kwargs -- passed to the channel instance's formatter methods
         """
-        #ADD THE TRY-EXCEPT BACK!!!!!
         try:
             if not self.input_channels.has_key(input_channel):
                 raise InvalidChannel()
