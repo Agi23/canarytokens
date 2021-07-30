@@ -53,27 +53,24 @@ class Switchboard(object):
         canarydrop -- a Canarydrop instance
         **kwargs -- passed to the channel instance's formatter methods
         """
-        try:
-            if not self.input_channels.has_key(input_channel):
-                raise InvalidChannel()
+        #ADD THE TRY-EXCEPT BACK!!!!!
 
-            canarydrop.add_canarydrop_hit(input_channel=input_channel, **kwargs)
+        if not self.input_channels.has_key(input_channel):
+            raise InvalidChannel()
 
-            if not canarydrop.alertable():
-                log.warn('Token {token} is not alertable at this stage.'\
-                        .format(token=canarydrop.canarytoken.value()))
-                return
+        canarydrop.add_canarydrop_hit(input_channel=input_channel, **kwargs)
 
-            #update accounting info
-            canarydrop.alerting(input_channel=input_channel,**kwargs)
+        if not canarydrop.alertable():
+            log.warn('Token {token} is not alertable at this stage.'\
+                    .format(token=canarydrop.canarytoken.value()))
+            return
 
-            for requested_output_channel in canarydrop.get_requested_output_channels():
-                try:
-                    output_channel = self.output_channels[requested_output_channel]
-                    output_channel.send_alert(canarydrop=canarydrop,
-                                              input_channel=self.input_channels[input_channel],
-                                              **kwargs)
-                except KeyError as e:
-                    raise Exception('Error sending alert: {err}'.format(err=e.message))
-        except Exception as e:
-            log.error('Exception occurred in switchboard dispatch: {err}'.format(err=e))
+        #update accounting info
+        canarydrop.alerting(input_channel=input_channel,**kwargs)
+
+        for requested_output_channel in canarydrop.get_requested_output_channels():
+            output_channel = self.output_channels[requested_output_channel]
+            output_channel.send_alert(canarydrop=canarydrop,
+                                        input_channel=self.input_channels[input_channel],
+                                        **kwargs)
+
