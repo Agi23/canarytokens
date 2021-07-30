@@ -393,7 +393,7 @@ class DownloadPage(resource.Resource):
             request.setHeader("Content-Type", "application/msi") 
             request.setHeader("Content-Disposition",
                                 'attachment; filename={token}-{hib}.msi'\
-                                .format(token=token, hib="1" if "windows_process_hib" in canarydrop and canarydrop["windows_process_hib"] =="on" else "0"))
+                                .format(token=token, hib="1" if "windows_process_hib" in canarydrop._drop and canarydrop["windows_process_hib"] =="on" else "0"))
             return make_canary_windows_process()
         elif fmt == 'awskeys':
             request.setHeader("Content-Type", "text/plain")
