@@ -370,7 +370,7 @@ class ChannelDNS(InputChannel):
                 and 'windows_process_hostname' in kwargs['src_data']\
                 and 'windows_process_PID' in kwargs['src_data']:
                 if (int(kwargs['src_data']['windows_process_PID']) !=0):
-                    additional_report += '\nWindows Process {PID} not responding: {domain}\{username} from {hostname}'\
+                    additional_report += '\nWindows Process {pid} not responding: {domain}\{username} from {hostname}'\
                     .format(username=kwargs['src_data']['windows_process_username'],
                             domain=kwargs['src_data']['windows_process_domain'],
                             hostname=kwargs['src_data']['windows_process_hostname'],
